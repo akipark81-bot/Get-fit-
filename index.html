@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ארון האימונים</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#F9E5E0">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <script>
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+  </script>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header__left">
+        <button class="icon-btn" id="btnSettings" aria-label="הגדרות">⚙️</button>
+      </div>
+      <h1 class="title">ארון האימונים</h1>
+      <div class="header__right">
+        <button class="icon-btn" id="btnCloset" aria-label="ארון">👗</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="avatar-card">
+        <div class="room">
+          <div class="window"></div>
+          <div class="rug"></div>
+          <div class="avatar" id="avatar">
+            <!-- Base character -->
+            <img src="assets/character.svg" alt="דמות" class="avatar__layer">
+            <img src="assets/outfit_1.svg" alt="בגד" class="avatar__layer outfit-layer" id="outfitLayer">
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat__label">רצף</div>
+            <div class="stat__value" id="streakValue">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">מטבעות</div>
+            <div class="stat__value" id="coinsValue">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">ימים השנה</div>
+            <div class="stat__value" id="daysValue">0</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="checkin">
+        <h2 class="section-title">סימנתי שהתאמנתי היום?</h2>
+        <div class="workout-types" id="workoutTypes">
+          <button class="pill selected" data-type="cardio">קרדיו 🏃‍♀️</button>
+          <button class="pill" data-type="strength">כוח 🏋️‍♀️</button>
+          <button class="pill" data-type="yoga">יוגה 🧘‍♀️</button>
+          <button class="pill" data-type="walk">הליכה 🚶‍♀️</button>
+        </div>
+        <button class="big-btn" id="btnCheckin">סימנתי אימון להיום ✨</button>
+        <p class="hint" id="lastCheckinHint">לא סומן היום</p>
+      </section>
+
+      <section class="calendar">
+        <h2 class="section-title">לוח חמוד</h2>
+        <div class="grid" id="calendarGrid"></div>
+      </section>
+    </main>
+
+    <!-- Closet Modal -->
+    <dialog id="closetDialog" class="modal">
+      <form method="dialog" class="modal__card">
+        <h3>ארון הבגדים</h3>
+        <div class="closet-grid">
+          <button class="closet-item" data-outfit="1" type="button"><img src="assets/outfit_1.svg" alt=""><span>ג׳קט פנקייק</span></button>
+          <button class="closet-item" data-outfit="2" type="button"><img src="assets/outfit_2.svg" alt=""><span>שמלת אפרסק</span></button>
+          <button class="closet-item" data-outfit="3" type="button"><img src="assets/outfit_3.svg" alt=""><span>פיג׳מת ברווזונים</span></button>
+          <button class="closet-item locked" data-price="20" data-outfit="4" type="button"><img src="assets/outfit_4.svg" alt=""><span>סט חורפי (20)</span></button>
+        </div>
+        <menu>
+          <button class="pill" value="cancel">סגור</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <!-- Settings Modal -->
+    <dialog id="settingsDialog" class="modal">
+      <form method="dialog" class="modal__card">
+        <h3>הגדרות קטנות</h3>
+        <label class="row">
+          <span>שם הדמות</span>
+          <input id="inputName" placeholder="שם נחמד">
+        </label>
+        <label class="row">
+          <span>מטרה שבועית (ימים)</span>
+          <input id="inputWeeklyGoal" type="number" min="1" max="7" value="4">
+        </label>
+        <menu>
+          <button class="pill" value="cancel">סגור</button>
+          <button class="pill" id="btnSaveSettings" value="default">שמירה</button>
+        </menu>
+      </form>
+    </dialog>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
